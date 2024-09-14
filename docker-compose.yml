@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  my-postgres:
+    image: postgres:15
+    container_name: db
+    environment:
+      - POSTGRES_DB=bookmanagement_db
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=password
+    ports:
+    - '5432:5432'
+    volumes:
+    - pg_data:/var/lib/postgresql/data
+
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/librarymanagementsystem
+    ports:
+      - "8000:8000"
+    depends_on:
+      - my-postgres
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_NAME=bookmanagement_db
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=password
+
+# db:
+#   image: postgres
+#   environment:
+#     - POSTGRES_DB: ${POSTGRES_DB}
+#     - POSTGRES_USER: ${POSTGRES_USER}
+#     - POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+#   volumes:
+#     - postgres_data:/var/lib/postgresql/data/
+volumes:
+  pg_data:

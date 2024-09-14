@@ -1,0 +1,85 @@
+{% extends "base.html" %} 
+{% block title %}
+Books
+{% endblock %}
+{% block content %}
+<h2>Book List</h2>
+<div class="d-flex flex-row">
+    <form>
+        <div class="row g-3 align-items-center mx-3">
+            <div class="col-auto">
+              <label for="inputPassword6" class="col-form-label">Publisher</label>
+            </div>
+            <div class="col-auto">
+              <input type="text" id="inputPublisher" class="form-control" aria-describedby="passwordHelpInline">
+            </div>
+        </div>
+    </form>
+    <button class="btn btn-primary" id="filterPublisher">filter</button>
+   
+    <form action="POST">
+        <div class="row g-3 align-items-center">
+            <div class="col-auto">
+              <label for="inputPassword6" class="col-form-label">Category</label>
+            </div>
+            <div class="col-auto">
+              <input type="text" id="inputCategory" class="form-control" aria-describedby="passwordHelpInline">
+            </div>
+        </div>
+    </form>
+    <button class="btn btn-primary" id="filterCategory">filter</button>
+    
+</div>
+<script>
+    document.getElementById('filterPublisher').addEventListener('click', function() {
+        const publisher = document.getElementById('inputPublisher').value;
+
+        if (publisher) {
+            const url = "{% url 'filter_book_by_publisher' 'PUBLISHER_PLACEHOLDER' %}".replace('PUBLISHER_PLACEHOLDER', encodeURIComponent(publisher));
+
+            window.location.href = url;
+        } else {
+            alert('Please enter a publisher name')
+        }
+    })
+</script>
+
+<script>
+    document.getElementById('filterCategory').addEventListener('click', function() {
+        const category = document.getElementById('inputCategory').value;
+
+        if (category) {
+            const url = "{% url 'filter_book_by_category' 'PUBLISHER_PLACEHOLDER' %}".replace('PUBLISHER_PLACEHOLDER', encodeURIComponent(category));
+
+            window.location.href = url;
+        } else {
+            alert('Please enter a category name')
+        }
+    })
+</script>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Publisher</th>
+            <th scope="col">Category </th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for book in books %}
+        <tr>
+                <td>{{book.name}}</td>
+                <td>{{book.publisher}}</td>
+                <td>{{book.category}}</td>
+                <td>
+                    <a href="{% url 'get_book' book.id%}"> <button class="btn btn-info">View</button></a>
+                    <a href="{% url 'borrow_book_by_id' book.id%}"> <button class="btn btn-success">borrow</button></a>
+                </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</ul>
+{% endblock %}

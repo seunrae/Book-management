@@ -1,0 +1,21 @@
+{% extends "base.html" %} 
+{% block title %}
+Borrow Book
+{% endblock %}
+{% block content %}
+<div class="card text-bg-light mb-3 mt-4" style="max-width: 18rem;">
+  <div class="card-header">Book Info</div>
+  <div class="card-body">
+    <form method="POST">
+      {% csrf_token %}
+      <h5 class="card-title">{{book.name}}</h5>
+      <p class="card-text">Book name: {{ form.name }}</p>
+      <p class="card-text">Publisher: {{ form.publisher }}</p> 
+      <p class="card-text">Category: {{ form.category }}</p> 
+      <p class="card-text">Duration: {{ form.borrow_duration }}</p> 
+      <p class="card-text">Borrowed by: {{form.borrowed_to}}</p> 
+      <button class="btn btn-success" type="submit">Borrow</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
