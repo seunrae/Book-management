@@ -5,6 +5,9 @@ from datetime import date, timedelta
 from django.utils import timezone
 
 # Create your views here.
+def home(request):
+    return render(request, "home.html");
+
 def create_user(request):
     form = UserForm(request.POST)
     
